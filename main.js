@@ -1,7 +1,7 @@
 function hand(holeCards, communityCards) {
     //   return {type:"TODO", ranks: []};
     //   const VALUES contains all possible values for any card in the deck
-      const SUITS = ['♠','♥','♦','♣']
+      const SUITS = ['♥','♠','♦','♣']
       const VALUES = {
         'A': 14,
         'K': 13,
@@ -41,5 +41,16 @@ function hand(holeCards, communityCards) {
         }
       }  
       console.log(potential)
+      let noDuplicates = []
+      for(let i = 0; i < SUITS.length; i++){
+        noDuplicates = potential.filter(c => c.includes(SUITS[i]))
+        if(noDuplicates.length > 4){
+          ranks = noDuplicates.slice(0,5)
+            .map(c => c[0])
+            .map(c => c == 'T' ? 10 : c)
+          type = 'straight-flush'
+          return {type, ranks};
+        } 
+      }
       
     }
