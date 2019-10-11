@@ -262,7 +262,7 @@ function hand(holeCards, communityCards) {
     if (type) {
         ranks = [...new Set(potential
             .map(c => c[0])
-            .map(c => c == 'T' ? 10 : c))]
+            .map(c => c == 'T' ? 10 : c))].slice(0, 5)
         return { type, ranks };
     }
 
@@ -302,7 +302,7 @@ function hand(holeCards, communityCards) {
             return { type, ranks }
         }
     } else {
-        ranks = allValues.slice(0, 5)
+        ranks = allValues.slice(0, 5).map(c => c == 'T' ? 10 : c)
         type = 'nothing'
         return { type, ranks }
     }
