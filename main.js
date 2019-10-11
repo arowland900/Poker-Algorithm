@@ -41,7 +41,7 @@ function hand(holeCards, communityCards) {
         }
     }
     let noDuplicates = []
-    for (let i = 0; i < SUITS.length; i++) {
+    for (let i = 0; i < 4; i++) {
         noDuplicates = potential.filter(c => c.includes(SUITS[i]))
         if (noDuplicates.length > 4) {
             ranks = noDuplicates.slice(0, 5)
@@ -52,9 +52,19 @@ function hand(holeCards, communityCards) {
         }
     }
 
-    //   FOUR OF A KIND LOGIC CHECK
+    //   FOUR OF A KIND LOGIC CHECK (also 'multiples' variable saved for future reference)
+    let multiples, others
+    for (let i = 0; i < allCards.length; i++) {
+        multiples = allCards.filter(c => allValues[i] == c[0])
+        others = allCards
+            .filter(c => allValues[i] != c[0])
+            .sort((a, b) => VALUES[b[0]] - VALUES[a[0]])
+        if (multiples.length == 4) {
+            ranks = [multiples[0][0], others[0][0]]
+            type = 'four-of-a-kind'
+            return { type, ranks };
+        }
+    }
 
-    for (let i = 0; i < 4
-      let multiples = allCards.filter((c, i) => )
 
 }
