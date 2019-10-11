@@ -95,4 +95,16 @@ function hand(holeCards, communityCards) {
         }
     }
 
+    //   FLUSH LOGIC CHECK
+    for (let i = 0; i < 4; i++) {
+        let suitMatch = allCards.filter(c => c.includes(SUITS[i]))
+        if (suitMatch.length > 4) {
+            ranks = suitMatch.slice(0, 5)
+                .map(c => c[0])
+                .map(c => c == 'T' ? 10 : c)
+            type = 'flush'
+            return { type, ranks };
+        }
+    }
+
 }
