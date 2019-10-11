@@ -119,6 +119,12 @@ function hand(holeCards, communityCards) {
         return { type, ranks };
     }
 
-
+    //   THREE OF A KIND LOGIC CHECK
+    if (fullHouseSave) {
+        type = 'three-of-a-kind'
+        ranks = [fullHouseSave[0][0], fullHouseOthers[0][0], fullHouseOthers[1][0]]
+            .map(c => c == 'T' ? 10 : c)
+        return { type, ranks };
+    }
 
 }
