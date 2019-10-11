@@ -53,7 +53,7 @@ function hand(holeCards, communityCards) {
     }
 
     //   FOUR OF A KIND LOGIC CHECK (also 'multiples' variable saved for future reference)
-    let multiples, others
+    let multiples, others, fullHouseSave, fullHouseOthers
     for (let i = 0; i < allCards.length; i++) {
         multiples = allCards.filter(c => allValues[i] == c[0])
         others = allCards
@@ -63,8 +63,36 @@ function hand(holeCards, communityCards) {
             ranks = [multiples[0][0], others[0][0]]
             type = 'four-of-a-kind'
             return { type, ranks };
+        } else if (multiples.length == 3) {
+            if (!fullHouseSave) {
+                fullHouseSave = multiples
+                fullHouseOthers = others
+            } else {
+                fullHouseSave = multiples[0][0] > fullHouseSave[0][0] ? multiples : fullHouseSave
+                fullHouseOthers = multiples[0][0] > fullHouseSave[0][0] ? others : fullHouseOthers
+            }
         }
     }
 
+    //   FULL HOUSE LOGIC CHECK
+    if (fullHouseSave) {
+        ranks = [...fullHouseSave]
+        for (let i = 0; i < fullHouseOthers.length; i++) {
+            let pair = fullHouseOthers.filter(c => c[0] == fullHouseOthers[i][0])
+            if (pair.length >= 2) {
+                if (ranks.length == 3) {
+                    ranks.push(pair[0], pair[1])
+                }
+                if (VALUES[pair[0][0]] > VALUES[ranks[4][0]]) {
+                    ranks = [...fullHouseSave, pair[0], pair[1]]
+                }
+            }
+        }
+        if (ranks.length == 5) {
+            type = 'full house'
+            ranks = [...new Set(ranks.map(c => c[0]))]
+            return { type, ranks };
+        }
+    }
 
 }
