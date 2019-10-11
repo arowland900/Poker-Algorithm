@@ -49,6 +49,11 @@ function hand(holeCards, communityCards) {
                 .map(c => c == 'T' ? 10 : c)
             type = 'straight-flush'
             return { type, ranks };
+        } else {
+            //       storing straigt potential for later
+            if (potential.length > 4) {
+                type = 'straight'
+            }
         }
     }
 
@@ -106,5 +111,14 @@ function hand(holeCards, communityCards) {
             return { type, ranks };
         }
     }
+    //   STRAIGHT LOGIC CHECK
+    if (type) {
+        ranks = potential
+            .map(c => c[0])
+            .map(c => c == 'T' ? 10 : c)
+        return { type, ranks };
+    }
+
+
 
 }
