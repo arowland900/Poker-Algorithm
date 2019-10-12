@@ -167,20 +167,17 @@ function hand(holeCards, communityCards) {
 
     //   LOGIC CHECK FOR STRAIGHT FLUSH
     let potential = []
-    for (let j = 0; j < 3; j++) {
-        for (let i = 0; i < 6; i++) {
-            let current = VALUES[allValues[i]]
-            let next = VALUES[allValues[i + 1]]
-            if ((current == next + 1 || current == next) && !potential.length) {
-                potential.push(allCards[i], allCards[i + 1])
-            } else if ((current == next + 1 || current == next)
-                && (next + 1 == VALUES[potential[potential.length - 1][0]] || next == VALUES[potential[potential.length - 1][0]])) {
-                potential.push(allCards[i + 1])
-            }
-            if (potential.length == 5) break
-            console.log("UPPER POTENTIAL", potential)
+
+    for (let i = 0; i < 6; i++) {
+        let current = VALUES[allValues[i]]
+        let next = VALUES[allValues[i + 1]]
+        if ((current == next + 1 || current == next) && !potential.length) {
+            potential.push(allCards[i], allCards[i + 1])
+        } else if ((current == next + 1 || current == next)
+            && (next + 1 == VALUES[potential[potential.length - 1][0]] || next == VALUES[potential[potential.length - 1][0]])) {
+            potential.push(allCards[i + 1])
         }
-        if (potential.length == 5) break
+        console.log("UPPER POTENTIAL", potential)
     }
     let noDuplicates = []
     for (let i = 0; i < 4; i++) {
