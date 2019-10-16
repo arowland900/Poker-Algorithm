@@ -134,7 +134,6 @@ function hand(holeCards, communityCards) {
 
 
 // BELOW CODE IS STILL BEING IRONED OUT
-
 function hand(holeCards, communityCards) {
     //   return {type:"TODO", ranks: []};
     //   const VALUES contains all possible values for any card in the deck
@@ -186,7 +185,21 @@ function hand(holeCards, communityCards) {
         console.log(potential)
         console.log("NO DUPLICATES")
         console.log(noDuplicates)
-        if (noDuplicates.length > 4) {
+        let noDupValues = noDuplicates.map(c => c[0])
+        let finalPotential = []
+        for (let i = 0; i < noDupValues.length - 1; i++) {
+            let current = VALUES[noDupValues[i]]
+            let next = VALUES[noDupValues[i + 1]]
+            if ((current == next + 1 || current == next) && !finalPotential.length) {
+                finalPotential.push(noDuplicates[i], noDuplicates[i + 1])
+            } else if ((current == next + 1 || current == next)
+                && (next + 1 == VALUES[finalPotential[finalPotential.length - 1][0]] || next == VALUES[finalPotential[finalPotential.length - 1][0]])) {
+                finalPotential.push(noDuplicates[i + 1])
+            }
+            console.log("UPPER POTENTIAL", finalPotential)
+        }
+
+        if (finalPotential.length > 4) {
             console.log(" NO D GREATER THAN 4")
             console.log('ranks befiore', ranks)
             ranks = noDuplicates.slice(0, 5)
@@ -303,7 +316,8 @@ function hand(holeCards, communityCards) {
         pairSave = [...new Set(pairSave)]
         if (pairSave.length > 4) {
             type = 'two pair'
-            ranks = [pairSave[0][0], pairSave[2][0], pairSave[4][0]]
+            let third = pairSave[4][0] > pairOthers[0][0] ? pairSave[4][0] : pairOthers[0][0]
+            ranks = [pairSave[0][0], pairSave[2][0], third]
                 .map(c => c == 'T' ? 10 : c)
             return { type, ranks }
         } else if (pairSave.length == 4) {
