@@ -33,7 +33,6 @@ function hand(holeCards, communityCards) {
                 && (next + 1 == VALUES[potential[potential.length - 1][0]] || next == VALUES[potential[potential.length - 1][0]])) {
                 potential.push(allCards[i + 1])
             }
-            console.log("UPPER POTENTIAL", potential)
         }
         if (potential.length >= 5) break
         else potential = []
@@ -41,10 +40,6 @@ function hand(holeCards, communityCards) {
     let noDuplicates = []
     for (let i = 0; i < 4; i++) {
         noDuplicates = potential.filter(c => c.includes(SUITS[i]))
-        console.log("POTENTIAL")
-        console.log(potential)
-        console.log("NO DUPLICATES")
-        console.log(noDuplicates)
         let noDupValues = noDuplicates.map(c => c[0])
         let finalPotential = []
         for (let i = 0; i < noDupValues.length - 1; i++) {
@@ -56,23 +51,16 @@ function hand(holeCards, communityCards) {
                 && (next + 1 == VALUES[finalPotential[finalPotential.length - 1][0]] || next == VALUES[finalPotential[finalPotential.length - 1][0]])) {
                 finalPotential.push(noDuplicates[i + 1])
             }
-            console.log("UPPER POTENTIAL", finalPotential)
         }
-
         if (finalPotential.length > 4) {
-            console.log(" NO D GREATER THAN 4")
-            console.log('ranks befiore', ranks)
             ranks = noDuplicates.slice(0, 5)
                 .map(c => c[0])
                 .map(c => c == 'T' ? 10 : c)
             type = 'straight-flush'
-
             return { type, ranks };
         } else {
-            //       storing straigt potential for later
+            //       storing straight potential for later
             if (potential.length > 4) {
-                console.log("HITTING POTENTIAL BELOW STR8 FLUSH")
-                console.log(potential)
                 let p = [...new Set(potential.map(c => c[0]))]
                 if (p.length > 4) {
                     type = 'straight'
@@ -81,7 +69,7 @@ function hand(holeCards, communityCards) {
         }
     }
 
-    //   FOUR OF A KIND LOGIC CHECK (also 'multiples' variable saved for future reference)
+    //   FOUR OF A KIND LOGIC CHECK (variables also used to check for multiples later)
     let multiples, others, fullHouseSave, fullHouseOthers, pairSave, pairOthers
     for (let i = 0; i < allCards.length; i++) {
         multiples = allCards.filter(c => allValues[i] == c[0])
@@ -147,9 +135,6 @@ function hand(holeCards, communityCards) {
     }
     //   STRAIGHT LOGIC CHECK
     if (type) {
-        console.log("HITTING STRAIGHT -----------")
-        console.log("type", type)
-        console.log("ranks", ranks)
         ranks = [...new Set(potential
             .map(c => c[0])
             .map(c => c == 'T' ? 10 : c))].slice(0, 5)
@@ -164,14 +149,7 @@ function hand(holeCards, communityCards) {
         return { type, ranks };
     }
 
-
-
-    console.log('PAIRS', pairSave)
-    console.log('-----------------------')
-    console.log('OTHERS', pairOthers)
-
-
-
+    // TWO PAIR, PAIR, AND NOTHING LOGIC CHECK 
     if (pairSave) {
         pairSave = [...new Set(pairSave)]
         if (pairSave.length > 4) {
